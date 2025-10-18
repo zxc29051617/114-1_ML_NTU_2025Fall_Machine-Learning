@@ -1,13 +1,13 @@
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 
-Assignment 1/train_set/
-Assignment 1/test_set/
-
-Assignment 1/weights/
-
+**/train_set/
+**/test_set/
+**/weights/
 
 submission.csv
-
-pdf
-
-
+*.csv
+*.pdf
+*.log
