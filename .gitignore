@@ -1,13 +1,80 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python cache / tooling
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+*$py.class
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
+# Python environments
+.venv/
+venv/
+env/
+ENV/
+__pypackages__/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Course datasets and downloaded data
 **/train_set/
 **/test_set/
-**/weights/
+**/dataset/
+**/data/
+**/cache/
+**/home/
 
-submission.csv
-*.csv
-*.pdf
+# Model weights, checkpoints, and serialized artifacts
+**/weights/
+**/checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.joblib
+
+# Experiment outputs and logs
+**/results/
+**/logs/
+**/wandb/
+**/wandb_logs/
+**/save_merge_logs/
 *.log
+
+# Generated submissions / tabular outputs
+submission.csv
+*_submission.csv
+*.csv
+
+# Large raw data/archive formats
+*.npy
+*.npz
+*.mat
+*.tar
+*.gz
+*.zip
+*.7z
+*.rar
+*.tif
+*.tiff
+*.ppm
+
+# Course handouts and reports are large binary files.
+# Keep them locally or upload them to Drive/Release assets instead of git.
+*.pdf
+*.pptx

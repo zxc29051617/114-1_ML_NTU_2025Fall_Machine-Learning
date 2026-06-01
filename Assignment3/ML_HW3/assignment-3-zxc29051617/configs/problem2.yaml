@@ -1,0 +1,75 @@
+# 1. 實驗名稱 
+name: "problem2"
+
+model:
+  name: "TransUNet"
+  args:
+    in_channels: 1
+    out_channels: 1
+    embed_dim: 768         
+    trans_blocks: 12       
+    heads: 12              
+    mlp_dim: 3072          
+
+# 3. 資料轉換 
+transform:
+  resized_imaged:
+    size: [448, 576]
+  RandomHorizontalFlip:
+    p: 0.5
+  RandomVerticalFlip:
+    p: 0.5
+  RandomRotation:
+    degrees: 15
+
+# 4. 資料集 
+train_dataset:
+  data_dir: dataset/train
+  has_label: true
+valid_dataset:
+  data_dir: dataset/train
+  has_label: true
+
+# 5. 資料載入器 (Transformer 很吃記憶體, batch_size 必須很小)
+train_loader:
+  batch_size: 1 
+  num_workers: 4
+  shuffle: true
+valid_loader:
+  batch_size: 1
+  num_workers: 1
+  shuffle: false
+
+# 6. 損失函數 (使用 P1 最強的 Loss)
+criterion:
+  name: "BCELoss" 
+  args: {} 
+
+# 7. 評估指標 
+eval_func:
+  name: "DiceScore" 
+  args: 
+    smooth: 1e-5
+
+# 8. 優化器
+optimizer:
+  name: "AdamW"    
+  args:
+    lr: 0.0001
+    weight_decay: 0.01
+
+# 9. 學習率排程器 
+lr_scheduler:
+  name: "CosineAnnealingLR" 
+  args:
+    T_max: 100 
+    eta_min: 1e-6
+
+# 10. 訓練器 (使用梯度累積來補償小 batch size)
+trainer:
+  n_epoch: 100
+  accumulation_steps: 16
+  
+# 11. 儲存點
+checkpoint:
+  path: "problem2_transunet_best.pth"

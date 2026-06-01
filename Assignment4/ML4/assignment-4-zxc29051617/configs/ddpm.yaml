@@ -1,0 +1,14 @@
+name: ddpm
+scheduler:
+  num_timesteps: 1000
+  beta_start: 1e-4
+  beta_end: 0.02
+dataloader:
+  batch_size: 256
+  shuffle: true
+model:
+  hidden_dim: 128
+trainer:
+  epochs: 10000
+  lr: 1e-3
+  log_every: 100

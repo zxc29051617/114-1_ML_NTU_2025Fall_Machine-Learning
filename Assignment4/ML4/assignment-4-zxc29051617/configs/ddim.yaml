@@ -1,0 +1,13 @@
+name: ddim
+scheduler:
+  num_timesteps: 1000
+  beta_start: 1e-4
+  beta_end: 0.02
+  eta: 1.0
+pipe:
+  num_inference_steps: 1000
+dataloader:
+  batch_size: 256
+  shuffle: true
+model:
+  hidden_dim: 128
