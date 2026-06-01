@@ -1,0 +1,30 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python / CMake / build artifacts
+__pycache__/
+*.py[cod]
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Data and model outputs
+train_set/
+test_set/
+weights/
+submission.csv
+*_submission.csv
+*.csv
+*.pt
+*.pth
+*.ckpt
+*.pkl
+
+# Logs / temporary files
+*.log
+logs/

@@ -1,0 +1,74 @@
+# ============================================
+# Problem 3 — Fine-tune after SSL
+# ============================================
+
+name: "problem3_finetune"
+
+model:
+  name: "TransUNet"
+  args:
+    in_channels: 1
+    out_channels: 1
+    embed_dim: 768
+    trans_blocks: 12
+    heads: 12
+    mlp_dim: 3072
+
+transform:
+  resized_imaged:
+    size: [448, 576]
+  RandomHorizontalFlip:
+    p: 0.5
+  RandomVerticalFlip:
+    p: 0.5
+  RandomRotation:
+    degrees: 15
+
+train_dataset:
+  data_dir: dataset/train
+  has_label: true
+
+valid_dataset:
+  data_dir: dataset/train
+  has_label: true
+
+train_loader:
+  batch_size: 1
+  num_workers: 4
+  shuffle: true
+
+valid_loader:
+  batch_size: 1
+  num_workers: 1
+  shuffle: false
+
+criterion:
+  name: "BCELoss"
+  args: {}
+
+eval_func:
+  name: "DiceScore"
+  args:
+    smooth: 1e-5
+
+optimizer:
+  name: "AdamW"
+  args:
+    lr: 0.0001
+    weight_decay: 0.01
+
+lr_scheduler:
+  name: "CosineAnnealingLR"
+  args:
+    T_max: 100
+    eta_min: 1e-6
+
+trainer:
+  n_epoch: 100
+  accumulation_steps: 16
+
+  # ⭐ Fine-tune 會載入 SSL 預訓練權重
+  pretrain_path: "ssl_pretrain_transunet.pth"
+
+checkpoint:
+  path: "problem3_finetune_best.pth"

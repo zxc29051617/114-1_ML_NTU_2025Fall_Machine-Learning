@@ -1,0 +1,69 @@
+# ============================================
+# Problem 3 — SSL Pretrain (Masked Autoencoder)
+# ============================================
+
+name: "problem3_pretrain"
+
+model:
+  name: "TransUNet"
+  args:
+    in_channels: 1
+    out_channels: 1
+    embed_dim: 768
+    trans_blocks: 12
+    heads: 12
+    mlp_dim: 3072
+
+transform:
+  resized_imaged:
+    size: [448, 576]
+
+  RandomPatchMasking:
+    patch_size: 16
+    mask_ratio: 0.6
+
+train_dataset:
+  data_dir: dataset/train
+  has_label: false
+
+valid_dataset:
+  data_dir: dataset/train
+  has_label: false
+
+train_loader:
+  batch_size: 2
+  num_workers: 4
+  shuffle: true
+
+valid_loader:
+  batch_size: 2
+  num_workers: 2
+  shuffle: false
+
+criterion:
+  name: "MSELoss"
+  args: {}
+
+eval_func:
+  name: "MSELoss"
+  args: {}
+
+optimizer:
+  name: "AdamW"
+  args:
+    lr: 0.0002
+    weight_decay: 0.01
+
+lr_scheduler:
+  name: "CosineAnnealingLR"
+  args:
+    T_max: 50
+    eta_min: 1e-6
+
+trainer:
+  n_epoch: 50
+  accumulation_steps: 1
+  # ⭐ 無需 pretrain_path（SSL 自己訓練權重）
+
+checkpoint:
+  path: "ssl_pretrain_transunet.pth"

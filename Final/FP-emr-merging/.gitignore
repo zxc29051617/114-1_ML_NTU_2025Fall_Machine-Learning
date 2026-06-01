@@ -1,0 +1,33 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# Data, checkpoints, cache, and generated outputs
+**/data/
+**/cache/
+**/home/
+**/checkpoints/
+**/model_weights/
+**/logs/
+**/save_merge_logs/
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.npy
+*.npz
+*.mat
+*.tar
+*.gz
+*.zip
+*.csv
+*.log
