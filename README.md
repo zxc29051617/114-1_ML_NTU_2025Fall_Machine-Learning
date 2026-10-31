@@ -1,4 +1,4 @@
-﻿# NTU Machine Learning 2025 Fall
+# NTU Machine Learning 2025 Fall
 
 這個 repository 收錄臺大 114-1 機器學習（CSIE5043）課程的講義、四份作業與期末專題。
 
