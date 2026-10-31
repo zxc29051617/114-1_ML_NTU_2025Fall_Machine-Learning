@@ -11,7 +11,7 @@
 .
 ├── README.md
 ├── notes.md              # 課程筆記
-├── Lecture *.pdf         # 課程講義
+├── lectures/             # 課程講義
 ├── Assignment1/          # 傳統機器學習與圍棋棋力預測
 ├── Assignment2/          # 圍棋棋風辨識（Who Play This Game）
 ├── Assignment3/          # 醫學影像分割
