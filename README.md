@@ -1,6 +1,6 @@
 # NTU Machine Learning 2025 Fall
 
-這個 repository 收錄臺大 114-1 機器學習（CSIE5043）課程的講義、四份作業與期末專題。
+這個 repository 收錄臺大 114-1 機器學習（李濬屹老師，CSIE5043）課程的講義、四份作業與期末專題。
 
 作業涵蓋傳統機器學習、圍棋棋力與棋風辨識、醫學影像分割，以及 GAN、diffusion 等生成模型；
 期末專題是小組改良免訓練的模型合併方法 EMR-Merging。
