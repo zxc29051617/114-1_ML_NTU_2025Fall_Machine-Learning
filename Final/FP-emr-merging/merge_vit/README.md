@@ -33,13 +33,29 @@ Run Layer-wise AdaMerging++ [paper](https://arxiv.org/abs/2310.02575)
 
 Check [here](https://github.com/EnnengYang/AdaMerging) if you want to load the trained merge coefficients for AdaMerging.
 
-Run EMR-Merging (Ours)
+Run EMR-Merging 
 > python main_emr_merging.py
+
+Run layer-wise-EMR (Ours)
+> python main_emr_merging.py --lora 4 --trimmean 0.1 --cluster --soft_mask_alpha 14
+
+--cluster: use Similarity-Based Hierarchical Clustering
+
+lora: use Low-rank Elect (SVD Subspace) and select top-k rank
+
+soft_mask_alpha: Importance-aware Soft Masks and the select alpha for sigmoid 
+
+trimmean:  Layer-wise Robust Scalar Rescale and select trimmean ratio 
 
 
 ## Results
 
 Results for our EMR-Merging are shown in [logs](./logs). 
+
+
+## optional: dataset for merging ViT-B/32 architecture 8 tasks
+
+you also can dowload dataset for our paper for google drive link: https://drive.google.com/drive/u/0/folders/1Wjs77TRyTCIFp_v2kOm-fRGfm4VMqkER
 
 ## Extension: Merging 30 ViTs
 
@@ -78,10 +94,3 @@ We also release them here.
 | Animal-10N    | torchvision.datasets.ImageFolder   | http://dm.kaist.ac.kr/datasets/animal-10n/                   |
 | Garbage       | torchvision.datasets.ImageFolder   | https://www.kaggle.com/datasets/asdasdasasdas/garbage-classification |
 | Fruits-360    | torchvision.datasets.ImageFolder   | https://www.kaggle.com/datasets/moltean/fruits               |
-
-
-
-
-The code for merging 30 ViT-B/16 models using EMR-Merging is in [code](https://github.com/harveyhuang18/EMR_Merging/blob/main/merge_vit/src/main_emr_30_vits.py).
-
-The pre-processing for gray-scale datasets, including MNIST, FashionMNIST, EMNIST, are trans_gray in [code](https://github.com/harveyhuang18/EMR_Merging/blob/main/merge_vit/src/main_emr_30_vits.py) while others are trans_rgb in [code](https://github.com/harveyhuang18/EMR_Merging/blob/main/merge_vit/src/main_emr_30_vits.py).
