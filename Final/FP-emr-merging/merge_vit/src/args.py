@@ -98,6 +98,29 @@ def parse_arguments():
         default='/gscratch/efml/gamaga/.cache/open_clip',
         help='Directory for caching models from OpenCLIP'
     )
+    parser.add_argument(
+    "--lora",
+    type=int,
+    default=None,  # None 表示不用 LoRA
+    help="use LoRA for unified vector, specify the rank (e.g., 5). Leave empty to not use LoRA"
+    )
+    parser.add_argument(
+        "--soft_mask_alpha",
+        type=float,
+        default=None,
+        help="oft_mask_alpha"
+    )
+    parser.add_argument(
+        "--cluster",
+        action="store_true",  # 有 --cluster 就是 True
+        help="Enable cluster mode"
+    )
+    parser.add_argument(
+        "--trimmean",
+        type=float,
+        default=None,
+        help="Trim mean percentage for evaluation metrics",
+    )
     parsed_args = parser.parse_args()
     parsed_args.device = "cuda" if torch.cuda.is_available() else "cpu"
     
