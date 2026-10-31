@@ -1,371 +1,108 @@
-﻿# 114-1 ML NTU 2025 Fall Machine Learning
+﻿# NTU Machine Learning 2025 Fall
 
-這個 repository 是 114-1 / 2025 Fall Machine Learning 課程的整理與作業實作，內容包含課程講義、Assignment 1-4、Final Project，以及各作業使用到的資料、模型權重與實驗輸出。
+這個 repository 收錄臺大 114-1 機器學習（CSIE5043）課程的講義、四份作業與期末專題。
 
-本 README 是最外層總覽，整理自：
+作業涵蓋傳統機器學習、圍棋棋力與棋風辨識、醫學影像分割，以及 GAN、diffusion 等生成模型；
+期末專題研究免調參的模型合併方法 EMR-Merging。
 
-- 原本的根目錄 README 課程筆記
-- `Assignment1/README.md`
-- `Assignment2/ML-Assignment2-Q5/README.md`
-- `Assignment3/ML_HW3/assignment-3-zxc29051617/README.md`
-- `Assignment4/ML4/assignment-4-zxc29051617/README.md`
-- `Final/merge_vit_final/README.md`
-
-## Repository Overview
+## 專案結構
 
 ```text
-D:\114-1MachineLearning
-├─ README.md
-├─ Lecture *.pdf
-├─ Assignment1
-│  ├─ ML_Assignment1_Q1_Q4_r13945041.ipynb
-│  ├─ train.py
-│  ├─ Q5.py
-│  ├─ train_set/
-│  ├─ test_set/
-│  ├─ weights/
-│  └─ README.md
-├─ Assignment2
-│  └─ ML-Assignment2-Q5
-│     ├─ train.py
-│     ├─ Q5.py
-│     ├─ minizero/
-│     ├─ style_detection/
-│     ├─ train_set/
-│     ├─ test_set/
-│     ├─ weights/
-│     └─ README.md
-├─ Assignment3
-│  └─ ML_HW3/assignment-3-zxc29051617
-│     ├─ train.py
-│     ├─ generate_submission.py
-│     ├─ configs/
-│     ├─ src/
-│     ├─ dataset/
-│     └─ README.md
-├─ Assignment4
-│  └─ ML4/assignment-4-zxc29051617
-│     ├─ train.py
-│     ├─ generate_sample.py
-│     ├─ train_meanflow.py
-│     ├─ configs/
-│     ├─ src/
-│     ├─ data/
-│     ├─ checkpoints/
-│     ├─ results/
-│     └─ README.md
-└─ Final
-   ├─ FP-emr-merging/
-   └─ merge_vit_final/
+.
+├── README.md
+├── notes.md              # 課程筆記
+├── Lecture *.pdf         # 課程講義
+├── Assignment1/          # 傳統機器學習與圍棋棋力預測
+├── Assignment2/          # 圍棋棋風辨識（Who Play This Game）
+├── Assignment3/          # 醫學影像分割
+├── Assignment4/          # 生成模型：GAN、DDPM、DDIM、MeanFlow
+└── Final/                # 期末專題：EMR-Merging 模型合併
 ```
 
-## Course Notes
+## Assignment 1：傳統機器學習與圍棋棋力預測
 
-### Supervised Learning
+路徑：[`Assignment1/`](Assignment1)
 
-給模型一批有標籤資料，讓模型學會從輸入 `x` 預測輸出 `y`。例如給很多圖片與標籤，模型學會分辨新的貓狗圖片。
-
-主要限制是標註資料成本高，而且每個任務通常都需要重新標資料，因此雖然監督式學習有效，但不容易擴展到所有領域。
-
-### Self-supervised Learning
-
-讓機器利用資料本身的結構產生訓練訊號。例如遮住句子中的幾個字，讓模型預測被遮住的內容。
-
-可以把 pre-trained model 想成作業系統，downstream tasks 想成應用程式：先學出通用能力，再遷移到不同任務。
-
-常見例子：
-
-- BERT：Masked Language Modeling
-- GPT：Next Token Prediction
-
-### Generative Adversarial Network
-
-GAN 透過 Generator 和 Discriminator 的對抗訓練，讓模型學會生成接近真實資料分佈的樣本。
-
-### Reinforcement Learning
-
-當沒有明確標籤，但能判斷結果好壞時，可以使用強化學習。模型透過 trial and error 學習策略，根據 reward 改進行動。
-
-例子包含 AlphaGo、自駕車、Atari 遊戲。
-
-### Anomaly Detection
-
-模型學習正常資料分佈，當輸入偏離正常分佈時，能判斷「這個樣本不確定或異常」。
-
-### Explainable AI
-
-AI 不只要做對，也要能解釋原因。模型需要指出哪些輸入特徵影響決策，讓人能理解判斷依據。
-
-### Model Attack
-
-模型可能對微小擾動非常敏感。只要對輸入加入人眼幾乎察覺不到的改動，模型就可能被誤導。
-
-### Domain Adaptation
-
-當訓練資料和測試資料分佈差異很大時，模型表現會下降。Domain Adaptation 的目標是讓模型能適應不同資料分佈。
-
-### Network Compression
-
-模型太大時不容易部署到手機或邊緣設備。常見方法包含 pruning、quantization、knowledge distillation。
-
-### Life-long Learning
-
-希望 AI 能持續學習新知識，同時避免忘記舊任務，也就是降低 catastrophic forgetting。
-
-### Meta Learning
-
-Meta Learning 是讓模型學會如何快速學習新任務，也就是 learning to learn。常見應用是 few-shot learning。
-
-## Assignments
-
-### Assignment 1: Classical Machine Learning and Go Rank Prediction
-
-路徑：`Assignment1/`
-
-這份作業分成兩部分：
-
-- Q1-Q4：基礎 ML notebook，包含 perceptron、MLP、linear regression、logistic regression、SVR、SVM、decision tree、random forest 等。
-- Q5：根據圍棋 policy / rank / KataGo 相關 log 特徵，訓練 XGBoost 分類器預測棋力 rank。
-
-主要檔案：
-
-- `ML_Assignment1_Q1_Q4_r13945041.ipynb`：Q1-Q4 notebook
-- `train.py`：Q5 訓練腳本
-- `Q5.py`：Q5 inference / submission 產生腳本
-- `train_set/`：訓練資料
-- `test_set/`：測試資料
-- `weights/`：模型輸出資料夾
-
-環境套件：
-
-```bash
-conda create -n ml1 python=3.11 -y
-conda activate ml1
-pip install numpy==2.3.3 pandas==2.3.3 scikit-learn==1.7.2 xgboost==1.7.6 lightgbm==4.6.0 joblib==1.5.2 tqdm==4.67.1 scipy==1.16.2
-```
-
-訓練：
+- Q1–Q4：perceptron、MLP、linear / logistic regression、SVR、SVM、decision tree、random forest 等基礎方法
+  （`ML_Assignment1_Q1_Q4_r13945041.ipynb`）。
+- Q5：從圍棋對局的 policy、rank 與 KataGo 相關特徵，用 XGBoost 預測棋力等級（`train.py`、`Q5.py`）。
 
 ```bash
 cd Assignment1
-python .\train.py --train_dir .\train_set --out_dir .\weights
+pip install numpy pandas scikit-learn xgboost lightgbm joblib tqdm scipy
+python train.py --train_dir train_set --out_dir weights
+python Q5.py --model_path weights/xgb_rank_model.pkl --test_dir test_set --output_csv submission.csv --chunk_size 500
 ```
 
-推論：
+## Assignment 2：圍棋棋風辨識（Who Play This Game）
+
+路徑：[`Assignment2/ML-Assignment2-Q5/`](Assignment2/ML-Assignment2-Q5)
+
+從 SGF 對局學習每位棋手的棋風 embedding，再比對 query games 與 candidate players，找出是誰下的棋。
+程式建立在 MiniZero（`minizero/`）與棋風偵測模型（`style_detection/`）上。
+
+- `train.py`：訓練棋風 embedding 模型（設定在 `conf.cfg`）
+- `Q5.py`：計算 candidate 與 query 的相似度並輸出 submission
+
+在 container 中執行：
 
 ```bash
-python .\Q5.py --model_path .\weights\xgb_rank_model.pkl --test_dir .\test_set --output_csv .\submission.csv --chunk_size 500
-```
-
-### Assignment 2: Who Play This Game
-
-路徑：`Assignment2/ML-Assignment2-Q5/`
-
-這份作業是圍棋玩家辨識任務。資料格式以 SGF 對局為主，目標是從 query games 找出對應的 candidate player。專案包含 MiniZero、style detection、訓練腳本與 submission 腳本。
-
-主要檔案與資料夾：
-
-- `train.py`：訓練玩家風格 embedding model
-- `Q5.py`：對 candidate / query SGF 建 embedding，計算相似度並輸出 submission
-- `conf.cfg`：訓練設定
-- `minizero/`：MiniZero engine 相關程式
-- `style_detection/`：棋風偵測模型
-- `train_set/`：訓練 SGF
-- `test_set/cand_set/`：candidate players
-- `test_set/query_set/`：query games
-- `weights/`：checkpoint 輸出
-
-建議環境是在 WSL / Docker container 中執行。
-
-進入專案：
-
-```bash
-wsl
-cd /mnt/d/114-1MachineLearning/Assignment2/ML-Assignment2-Q5
-```
-
-啟動 container：
-
-```bash
+cd Assignment2/ML-Assignment2-Q5
 ./scripts/start-container.sh
-```
-
-在 container 內 build engine：
-
-```bash
-./scripts/build.sh go
-```
-
-訓練：
-
-```bash
+./scripts/build.sh go          # 在 container 內編譯圍棋引擎
 python train.py
+python Q5.py --model_path weights/combined_epoch1.pt --test_dir test_set --output_csv submission.csv --device cuda
 ```
 
-推論：
+## Assignment 3：醫學影像分割
 
-```bash
-python Q5.py \
-  --model_path weights/combined_epoch1.pt \
-  --test_dir test_set \
-  --output_csv submission.csv \
-  --device cuda \
-  --n_frames 10 \
-  --move_stride 1 \
-  --tta 1
-```
+路徑：[`Assignment3/ML_HW3/assignment-3-zxc29051617/`](Assignment3/ML_HW3/assignment-3-zxc29051617)
 
-### Assignment 3: Medical Image Segmentation
-
-路徑：`Assignment3/ML_HW3/assignment-3-zxc29051617/`
-
-這份作業實作醫學影像分割，主要目標是訓練 segmentation model 產生二元 mask。實驗包含：
+訓練分割模型產生二元 mask，比較三種做法：
 
 - Problem 1：Simple-CNN UNet
-- Problem 2：Transformer + UNet / TransUNet
-- Problem 3：Self-supervised pretraining，再 fine-tune segmentation
+- Problem 2：TransUNet（Transformer + UNet）
+- Problem 3：先自監督預訓練，再 fine-tune 分割
 
-主要檔案與資料夾：
-
-- `train.py`：訓練入口
-- `generate_submission.py`：產生 RLE submission
-- `configs/`：不同 problem 與 ablation 的 YAML config
-- `src/dataset.py`：dataset 與 transform
-- `src/model.py`：SimpleCNNUNet
-- `src/model_p2.py`：TransUNet
-- `src/loss.py`：loss functions
-- `src/metric.py`：Dice score 等 metric
-- `src/trainer.py`：訓練 loop
-- `dataset/`：train / public / private image data
-
-安裝：
+實驗結果與分析寫在該資料夾的 README。
 
 ```bash
 cd Assignment3/ML_HW3/assignment-3-zxc29051617
 uv sync
-```
-
-訓練：
-
-```bash
 python train.py --config problem1_bce
-python train.py --config problem2
-python train.py --config problem3_pretrain
-python train.py --config problem3_finetune
-```
-
-產生 submission：
-
-```bash
 python generate_submission.py --config problem1_bce --public_dir dataset/public --private_dir dataset/private
 ```
 
-### Assignment 4: Generative Models
+## Assignment 4：生成模型
 
-路徑：`Assignment4/ML4/assignment-4-zxc29051617/`
+路徑：[`Assignment4/ML4/assignment-4-zxc29051617/`](Assignment4/ML4/assignment-4-zxc29051617)
 
-這份作業在 2D checkerboard synthetic dataset 上比較生成模型，包含：
-
-- GAN
-- DDPM
-- DDIM
-- MeanFlow extra credit
-
-主要檔案與資料夾：
-
-- `train.py`：GAN / DDPM 訓練入口
-- `train_meanflow.py`：MeanFlow 訓練
-- `generate_sample.py`：生成 samples、metrics、submission csv 與圖
-- `gen_ddim_img.py`：DDIM sample / visualization
-- `inference_meanflow.py`：MeanFlow inference
-- `src/gan.py`：GAN model、pipeline、trainer
-- `src/diffusion.py`：DDPM / DDIM scheduler、denoiser、pipeline、trainer
-- `src/metric.py`：Energy Distance、2-Wasserstein Distance
-- `configs/`：GAN / DDPM / DDIM config
-- `data/checkerboard.npy`：目標資料分佈
-- `checkpoints/`：模型權重
-- `results/`：生成結果與 submission
-
-安裝：
+在 2D checkerboard 資料上實作並比較 GAN、DDPM、DDIM，加分題實作 MeanFlow；以 Energy Distance 與
+2-Wasserstein Distance 評估生成的分佈。
 
 ```bash
 cd Assignment4/ML4/assignment-4-zxc29051617
 uv sync
-```
-
-訓練：
-
-```bash
-uv run train.py --method gan
-uv run train.py --method ddpm
+uv run train.py --method gan          # 或 ddpm
 uv run train_meanflow.py
-```
-
-產生 samples / submission：
-
-```bash
-uv run generate_sample.py --method gan
-uv run generate_sample.py --method ddpm
 uv run generate_sample.py --method ddim
-uv run generate_sample.py --method meanflow
 ```
 
-## Final Project: EMR-Merging
+## Final Project：EMR-Merging
 
-路徑：`Final/merge_vit_final/`
+路徑：[`Final/merge_vit_final/`](Final/merge_vit_final)
 
-Final Project 基於 EMR-Merging: Tuning-Free High-Performance Model Merging，研究如何把多個 task-specific model 的 task vectors 合併成 unified task vector，再透過 task-specific mask / rescaler 還原不同任務需要的方向與幅度。
-
-專案包含：
-
-- `merge_vit/`：Vision Transformer model merging
-- `merge_lm/`：RoBERTa / GPT-2 language model merging
-- `merge_beit3/`：BEiT-3 model merging
-
-本 repo 的 Final 重點主要在 `merge_vit`。
-
-主要檔案：
-
-- `merge_vit/src/main_emr_merging.py`：EMR-Merging 主流程
-- `merge_vit/src/main_task_arithmetic.py`：Task Arithmetic baseline
-- `merge_vit/src/main_ties_merging.py`：TIES-Merging baseline
-- `merge_vit/src/main_layer_wise_adamerging.py`：Layer-wise AdaMerging
-- `merge_vit/src/main_layer_wise_adamergingpp.py`：Layer-wise AdaMerging++
-- `merge_vit/src/task_vectors.py`：task vector 建立與套用
-- `merge_vit/src/eval.py`：單一 dataset evaluation
-- `merge_vit/src/datasets/`：Cars、DTD、EuroSAT、GTSRB、MNIST、RESISC45、SUN397、SVHN 等資料集 loader
-
-ViT merging 需要先準備：
-
-- pretrained checkpoint，例如 `checkpoints/ViT-B-32/zeroshot.pt`
-- 每個 dataset 的 finetuned checkpoint，例如 `checkpoints/ViT-B-32/MNIST/finetuned.pt`
-- 對應資料集放在 `merge_vit/data/`
-
-執行範例：
+以 [EMR-Merging](https://arxiv.org/abs/2405.17461)（NeurIPS 2024）為基礎：把多個 task-specific 模型的 task vector
+合併成一個，再用每個任務的 mask 與 rescaler 還原各任務需要的方向與大小。主要實驗在 Vision Transformer
+（`merge_vit/`），並和 Task Arithmetic、TIES-Merging、AdaMerging 比較；另外嘗試 hierarchical clustering、
+SVD refinement、soft mask、trimmed-mean rescaling 等修改。
 
 ```bash
 cd Final/merge_vit_final/merge_vit/src
 python main_task_arithmetic.py
 python main_ties_merging.py
-python main_layer_wise_adamergingpp.py
 python main_emr_merging.py
 ```
 
-EMR-Merging 相關修改包含 hierarchical clustering、SVD refinement、soft mask、trimmed-mean rescaling 等實驗選項，可從 `main_emr_merging.py` 和 `args.py` 開始看。
-
-## Suggested Reading Order
-
-如果是第一次讀這個 repository，建議順序如下：
-
-1. 先讀本 README，了解整體結構。
-2. 看 `Assignment1/ML_Assignment1_Q1_Q4_r13945041.ipynb`，複習 classical ML 基礎。
-3. 看 `Assignment3/ML_HW3/assignment-3-zxc29051617/train.py`，熟悉標準 PyTorch training pipeline。
-4. 看 `Assignment4/ML4/assignment-4-zxc29051617/train.py` 與 `src/diffusion.py`，理解 generative model 實作。
-5. 最後看 `Final/merge_vit_final/merge_vit/src/main_emr_merging.py`，理解 Final 的模型合併主流程。
-
-## Notes
-
-- `train_set/`、`test_set/`、`dataset/`、`data/` 通常是大型資料，不一定適合放入 git。
-- `weights/`、`checkpoints/`、`results/`、`wandb_logs/` 是訓練產物或實驗紀錄。
-- `.venv/`、`build/`、`__pycache__/` 是環境或暫存檔，閱讀程式時可先忽略。
-- 若只想理解程式邏輯，優先看 `train.py`、`Q5.py`、`generate_submission.py`、`generate_sample.py`、`src/` 內的核心模組。
+需要先準備 `checkpoints/ViT-B-32/` 的預訓練與各資料集 fine-tuned 權重，以及 `merge_vit/data/` 的資料集。
+`Final/FP-emr-merging/` 是另一份版本，多了 SVD、ablation 與參數搜尋等實驗腳本（`merge_vit/` 下的 `eval_ablation.py`、`find_best_r.py` 等）。

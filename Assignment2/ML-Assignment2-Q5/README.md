@@ -43,12 +43,11 @@ Make sure you are inside the cloned assignment repository.
 # 啟動 WSL
 wsl
 
-# 根據您存放的位置調整路徑
-# 範例路徑 (從 /mnt/d/... 開始)
-cd /mnt/d/114-1MachineLearning/Assignment2/ML-Assignment2-Q5
+# 進入專案資料夾（依存放位置調整）
+cd ML-Assignment2-Q5
 ```
 ### Start the Container.
-When successful, you will see a prompt like:  root@DESKTOP-GPOUN4B:/workspace
+When successful, you will see a prompt like:  root@...:/workspace
 ```bash
 ./scripts/start-container.sh
 ```
